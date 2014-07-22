@@ -1,0 +1,11 @@
+{
+	"name" : "App/BasePHP-MVC",
+	"require" : {
+		"php" : ">=5.4"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"App" : "src"
+		}
+	}
+}
