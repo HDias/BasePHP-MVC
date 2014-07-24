@@ -1,4 +1,4 @@
 PHP MVC Application
 -------------------
 
-*Application php with MVC
+*PHP Application with MVC
