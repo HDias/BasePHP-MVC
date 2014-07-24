@@ -4,15 +4,38 @@ namespace App\Core;
 
 class App {
     
-    protected $controller = 'index';
+    protected $controller = 'Index';
     
-    protected $action = 'index';
+    protected $action;
     
     protected $params = [];
 	
 	public function __construct()
 	{
-		print_r($this->parseUrl());
+		$url = $this->parseUrl();
+		$controller = ucfirst($url[0]);
+		
+		$class_name = 'App\\Controller\\' . $controller;
+		
+		if(class_exists($class_name)){
+			$this->controller = $url[0];	
+			unset($url[0]);
+		}
+		$class = 'App\\Controller\\' . $this->controller;
+		$this->controller = new $class();
+		
+		if (isset($url[1])) {
+		    $url[1] = $url[1] . 'Action';
+			if (method_exists($this->controller, $url[1])) {
+				$this->action = $url[1];
+				unset($url[1]);
+			}
+			$this->params = array_values($url);
+			call_user_func_array([$this->controller, $this->action], $this->params);
+		}
+		//$this->params = $url ? array_values($url) : [];
+		//Chama as funcões e passa os parâmetros
+		//call_user_func_array([$this->controller, $this->action], $this->params);
 	}
 	public function parseUrl()
 	{
